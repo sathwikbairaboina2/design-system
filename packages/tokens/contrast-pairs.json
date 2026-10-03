@@ -1,0 +1,12 @@
+[
+  { "fg": "color.text.default", "bg": "color.bg.surface", "min": 4.5 },
+  { "fg": "color.text.default", "bg": "color.bg.subtle", "min": 4.5 },
+  { "fg": "color.text.muted", "bg": "color.bg.surface", "min": 4.5 },
+  { "fg": "color.text.onAccent", "bg": "color.bg.accent", "min": 4.5 },
+  { "fg": "color.text.onAccent", "bg": "color.bg.accentHover", "min": 4.5 },
+  { "fg": "color.text.onAccent", "bg": "color.bg.danger", "min": 4.5 },
+  { "fg": "color.text.danger", "bg": "color.bg.surface", "min": 4.5 },
+  { "fg": "color.border.input", "bg": "color.bg.surface", "min": 3.0 },
+  { "fg": "color.border.focus", "bg": "color.bg.surface", "min": 3.0 },
+  { "fg": "color.border.focus", "bg": "color.bg.subtle", "min": 3.0 }
+]

@@ -1,0 +1,107 @@
+{
+  "color": {
+    "$type": "color",
+    "neutral": {
+      "0": { "$value": "#ffffff" },
+      "50": { "$value": "#f8fafc" },
+      "100": { "$value": "#f1f5f9" },
+      "200": { "$value": "#e2e8f0" },
+      "300": { "$value": "#cbd5e1" },
+      "400": { "$value": "#94a3b8" },
+      "500": { "$value": "#64748b" },
+      "600": { "$value": "#475569" },
+      "700": { "$value": "#334155" },
+      "800": { "$value": "#1e293b" },
+      "900": { "$value": "#0f172a" },
+      "950": { "$value": "#020617" }
+    },
+    "blue": {
+      "300": { "$value": "#93c5fd" },
+      "400": { "$value": "#60a5fa" },
+      "500": { "$value": "#3b82f6" },
+      "600": { "$value": "#2563eb" },
+      "700": { "$value": "#1d4ed8" }
+    },
+    "red": {
+      "300": { "$value": "#fca5a5" },
+      "400": { "$value": "#f87171" },
+      "600": { "$value": "#dc2626" },
+      "700": { "$value": "#b91c1c" }
+    },
+    "green": {
+      "400": { "$value": "#4ade80" },
+      "600": { "$value": "#16a34a" }
+    },
+    "bg": {
+      "surface": { "$value": "{color.neutral.0}" },
+      "subtle": { "$value": "{color.neutral.50}" },
+      "accent": { "$value": "{color.blue.600}" },
+      "accentHover": { "$value": "{color.blue.700}" },
+      "danger": { "$value": "{color.red.700}" }
+    },
+    "text": {
+      "default": { "$value": "{color.neutral.900}" },
+      "muted": { "$value": "{color.neutral.600}" },
+      "onAccent": { "$value": "{color.neutral.0}" },
+      "danger": { "$value": "{color.red.700}" }
+    },
+    "border": {
+      "default": { "$value": "{color.neutral.200}" },
+      "input": { "$value": "{color.neutral.500}" },
+      "focus": { "$value": "{color.blue.600}" }
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "0": { "$value": "0px" },
+    "1": { "$value": "4px" },
+    "2": { "$value": "8px" },
+    "3": { "$value": "12px" },
+    "4": { "$value": "16px" },
+    "6": { "$value": "24px" },
+    "8": { "$value": "32px" }
+  },
+  "radius": {
+    "$type": "dimension",
+    "sm": { "$value": "4px" },
+    "md": { "$value": "6px" },
+    "lg": { "$value": "10px" },
+    "full": { "$value": "9999px" }
+  },
+  "border": {
+    "width": {
+      "$type": "dimension",
+      "1": { "$value": "1px" },
+      "2": { "$value": "2px" }
+    }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "sans": { "$value": "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" },
+      "mono": { "$value": "ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace" }
+    },
+    "size": {
+      "$type": "dimension",
+      "sm": { "$value": "13px" },
+      "md": { "$value": "15px" },
+      "lg": { "$value": "18px" },
+      "xl": { "$value": "24px" }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": { "$value": 400 },
+      "medium": { "$value": 500 },
+      "semibold": { "$value": 600 }
+    },
+    "lineHeight": {
+      "$type": "number",
+      "tight": { "$value": 1.2 },
+      "normal": { "$value": 1.5 }
+    }
+  },
+  "duration": {
+    "$type": "duration",
+    "fast": { "$value": "120ms" }
+  }
+}

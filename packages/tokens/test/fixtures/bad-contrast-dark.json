@@ -1,0 +1,7 @@
+{
+  "color": {
+    "text": {
+      "onAccent": { "$value": "#ffffff" }
+    }
+  }
+}

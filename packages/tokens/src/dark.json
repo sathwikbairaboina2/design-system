@@ -1,0 +1,22 @@
+{
+  "color": {
+    "bg": {
+      "surface": { "$value": "{color.neutral.900}" },
+      "subtle": { "$value": "{color.neutral.800}" },
+      "accent": { "$value": "{color.blue.400}" },
+      "accentHover": { "$value": "{color.blue.300}" },
+      "danger": { "$value": "{color.red.400}" }
+    },
+    "text": {
+      "default": { "$value": "{color.neutral.50}" },
+      "muted": { "$value": "{color.neutral.300}" },
+      "onAccent": { "$value": "{color.neutral.950}" },
+      "danger": { "$value": "{color.red.300}" }
+    },
+    "border": {
+      "default": { "$value": "{color.neutral.700}" },
+      "input": { "$value": "{color.neutral.400}" },
+      "focus": { "$value": "{color.blue.400}" }
+    }
+  }
+}
