@@ -6,3 +6,5 @@ export { Input, type InputProps } from './Input/Input';
 export { Badge, type BadgeProps } from './Badge/Badge';
 export { Card, type CardProps } from './Card/Card';
 export { EmptyState, type EmptyStateProps } from './EmptyState/EmptyState';
+export { Dialog, type DialogProps } from './Dialog/Dialog';
+export { Tabs, type TabsProps, type TabItem } from './Tabs/Tabs';
