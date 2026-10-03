@@ -1,0 +1,4 @@
+{
+  "billing": { "entry": "http://localhost:5441/mf-manifest.json", "contract": 1, "timeoutMs": 5000 },
+  "catalog": { "entry": "http://localhost:5442/mf-manifest.json", "contract": 1, "timeoutMs": 5000 }
+}

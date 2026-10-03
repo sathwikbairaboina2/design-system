@@ -1,0 +1,89 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--color-bg-surface);
+  color: var(--color-text-default);
+}
+
+.app {
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-6);
+  border-bottom: var(--border-width-1) solid var(--color-border-default);
+  background: var(--color-bg-subtle);
+}
+
+.nav {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.nav a {
+  padding: var(--space-1) var(--space-2);
+  border: var(--border-width-1) solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+}
+
+.nav a[aria-current='page'] {
+  color: var(--color-text-default);
+  background: var(--color-bg-surface);
+  border-color: var(--color-border-default);
+}
+
+.nav a:focus-visible {
+  outline: var(--border-width-2) solid var(--color-border-focus);
+  outline-offset: var(--border-width-1);
+}
+
+.brand {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.main {
+  padding: var(--space-6);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(calc(var(--space-8) * 8), 1fr));
+  gap: var(--space-6);
+}
+
+.debug {
+  margin-top: var(--space-6);
+}
+
+.debug table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.debug th,
+.debug td {
+  padding: var(--space-1) var(--space-2);
+  border-bottom: var(--border-width-1) solid var(--color-border-default);
+  text-align: left;
+  font-size: var(--font-size-sm);
+}
+
+.debug th {
+  color: var(--color-text-muted);
+}
