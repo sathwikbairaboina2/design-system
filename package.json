@@ -12,7 +12,7 @@
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "lint": "eslint .",
-    "test": "pnpm -r --filter \"./packages/**\" --filter @ds/shell test && node --test scripts/",
+    "test": "pnpm -r --filter \"./packages/**\" --filter @ds/shell test && node --test \"scripts/*.test.mjs\"",
     "test:contract": "pnpm --filter @ds/contract-tests test",
     "test:a11y": "pnpm --filter @ds/visual-tests test:a11y",
     "test:visual": "pnpm --filter @ds/visual-tests test:visual",

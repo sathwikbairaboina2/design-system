@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const kind = process.argv.some((a) => a.includes('visual')) ? 'visual' : 'a11y';
+// Only the CLI arguments decide: argv[1] is a path that itself contains "visual".
+const kind = process.argv.slice(2).some((a) => a.includes('visual.spec')) ? 'visual' : 'a11y';
 
 export default defineConfig({
   testDir: '.',

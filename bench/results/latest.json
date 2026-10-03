@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-10-03T23:40:49.788Z",
+  "commit": "964728a",
+  "node": "v24.18.0",
+  "components": 8,
+  "stories": 22,
+  "a11y": {
+    "checks": 44,
+    "failures": 0
+  },
+  "visual": {
+    "screenshots": 88,
+    "failures": 0,
+    "skipped": 0
+  },
+  "coverage": {
+    "visualPct": 100,
+    "a11yPct": 100
+  },
+  "contrast": {
+    "pairs": 10,
+    "checks": 20,
+    "passed": 20
+  },
+  "singletons": {
+    "uiInstanceIds": 1,
+    "owners": [
+      "billing",
+      "catalog",
+      "shell"
+    ],
+    "reactLoadedVersions": 1,
+    "uiLoadedVersions": 1
+  },
+  "remoteFailure": {
+    "timeoutMs": 1500,
+    "deadFallbackMs": 322.5,
+    "slowFallbackMs": 1515.7
+  },
+  "sizes": {
+    "uiJsGzipBytes": 2175,
+    "uiCssGzipBytes": 1236,
+    "tokensCssGzipBytes": 764
+  },
+  "headline": "8 components, 100% of 22 stories under visual + a11y regression (88 screenshots, 0 serious/critical axe violations), two independently deployed remotes sharing one React and one design system"
+}

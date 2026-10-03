@@ -15,7 +15,7 @@ export default defineConfig({
   testMatch: /\.spec\.ts$/,
   fullyParallel: false,
   workers: 1,
-  retries: process.env.CI ? 1 : 0,
+  retries: 1,
   reporter: [['list']],
   use: { baseURL: 'http://localhost:5440' },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
