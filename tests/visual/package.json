@@ -1,0 +1,18 @@
+{
+  "name": "@ds/visual-tests",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:a11y": "playwright test a11y.spec.ts",
+    "test:visual": "playwright test visual.spec.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
+    "@types/node": "26.6.4",
+    "sirv-cli": "3.0.1",
+    "typescript": "6.0.3"
+  }
+}
