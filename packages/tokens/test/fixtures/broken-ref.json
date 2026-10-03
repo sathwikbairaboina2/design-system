@@ -1,0 +1,6 @@
+{
+  "color": {
+    "$type": "color",
+    "bg": { "surface": { "$value": "{color.nope}" } }
+  }
+}
