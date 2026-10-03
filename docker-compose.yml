@@ -1,0 +1,13 @@
+name: design-system
+
+services:
+  demo:
+    container_name: design-system-demo
+    build:
+      context: .
+      dockerfile: docker/demo.Dockerfile
+    ports:
+      - "5440:5440"
+      - "5441:5441"
+      - "5442:5442"
+      - "5444:5444"
