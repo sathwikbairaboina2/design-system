@@ -1,0 +1,17 @@
+{
+  "name": "@ds/eslint-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@eslint/css": "1.4.0"
+  },
+  "devDependencies": {
+    "eslint": "9.39.5",
+    "vitest": "5.0.3"
+  }
+}
