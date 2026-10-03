@@ -43,6 +43,17 @@ describe('RemoteRoute', () => {
     expect(load).toHaveBeenCalledTimes(3);
   });
 
+  it('does not carry a failure over when the same slot switches to another remote', async () => {
+    const bad = makeLoad(2);
+    const good = makeLoad(1);
+    const { rerender } = render(<RemoteRoute remote="catalog" module="CatalogPage" entry={entry} fallbackTitle="Catalog is unavailable" load={bad} />);
+    await screen.findByTestId('catalog-fallback');
+    rerender(<RemoteRoute remote="billing" module="BillingPage" entry={entry} fallbackTitle="Billing is unavailable" load={good} />);
+    expect(await screen.findByText('remote page')).toBeInTheDocument();
+    expect(screen.queryByTestId('billing-fallback')).toBeNull();
+    expect(screen.queryByTestId('catalog-fallback')).toBeNull();
+  });
+
   it('marks start and fallback so the latency can be measured', async () => {
     const marks: string[] = [];
     const mark = vi.spyOn(performance, 'mark').mockImplementation((name: string) => {

@@ -71,7 +71,7 @@ export function RemoteRoute({ remote, module, entry, props, fallbackTitle, load 
   );
   return (
     <Boundary
-      key={attempt}
+      key={`${remote}/${module}/${attempt}`}
       render={(error) => (
         <Fallback remote={remote} entry={entry} title={fallbackTitle} error={error} retry={() => setAttempt((a) => a + 1)} />
       )}
