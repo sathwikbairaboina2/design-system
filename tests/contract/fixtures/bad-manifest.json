@@ -1,0 +1,132 @@
+{
+  "id": "billing",
+  "name": "billing",
+  "metaData": {
+    "name": "billing",
+    "globalName": "billing",
+    "buildInfo": {
+      "buildVersion": "0.1.0",
+      "buildName": "@ds/remote-billing"
+    },
+    "publicPath": "http://localhost:5441/",
+    "remoteEntry": {
+      "name": "remoteEntry.js",
+      "path": "",
+      "type": "global"
+    },
+    "types": {
+      "path": "",
+      "name": "",
+      "zip": "",
+      "api": ""
+    },
+    "pluginVersion": "2.9.2"
+  },
+  "shared": [
+    {
+      "id": "billing:react-dom",
+      "name": "react-dom",
+      "version": "19.3.0",
+      "singleton": true,
+      "requiredVersion": "^19.0.0",
+      "assets": {
+        "js": {
+          "sync": [
+            "static/js/async/b.0ee00a0c51.js",
+            "static/js/async/b0.c94158ab6d.js"
+          ],
+          "async": []
+        },
+        "css": {
+          "sync": [],
+          "async": []
+        }
+      }
+    },
+    {
+      "id": "billing:react",
+      "name": "react",
+      "version": "19.3.0",
+      "singleton": false,
+      "requiredVersion": "^19.0.0",
+      "assets": {
+        "js": {
+          "sync": [
+            "static/js/async/8.3c485282de.js"
+          ],
+          "async": []
+        },
+        "css": {
+          "sync": [],
+          "async": []
+        }
+      }
+    },
+    {
+      "id": "billing:@sathwik/ui",
+      "name": "@sathwik/ui",
+      "version": "0.1.0",
+      "singleton": true,
+      "requiredVersion": "^0.1.0",
+      "assets": {
+        "js": {
+          "sync": [
+            "static/js/async/c.3f975c256f.js",
+            "static/js/async/cm.7c3d85eac8.js",
+            "static/js/async/z.fd1eac70ce.js"
+          ],
+          "async": []
+        },
+        "css": {
+          "sync": [],
+          "async": []
+        }
+      }
+    }
+  ],
+  "remotes": [],
+  "exposes": [
+    {
+      "id": "billing:contract",
+      "name": "contract",
+      "assets": {
+        "js": {
+          "sync": [
+            "static/js/async/__federation_expose_contract.eebaae67a7.js"
+          ],
+          "async": []
+        },
+        "css": {
+          "sync": [],
+          "async": []
+        }
+      },
+      "path": "./contract"
+    },
+    {
+      "id": "billing:BillingPage",
+      "name": "BillingPage",
+      "assets": {
+        "js": {
+          "sync": [
+            "static/js/async/__federation_expose_BillingPage.6a4eace91c.js"
+          ],
+          "async": [
+            "static/js/async/__federation_expose_InvoiceWidget.d78b2e77a3.js",
+            "static/js/async/a.88f4647c4d.js",
+            "static/js/async/r.f0c63dad54.js"
+          ]
+        },
+        "css": {
+          "sync": [
+            "static/css/async/__federation_expose_BillingPage.5520ca878a.css"
+          ],
+          "async": [
+            "static/css/async/r.5dc7a971a0.css"
+          ]
+        }
+      },
+      "path": "./BillingPage"
+    }
+  ]
+}
