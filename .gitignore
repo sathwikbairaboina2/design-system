@@ -1,0 +1,13 @@
+node_modules/
+dist/
+dist-incompatible/
+storybook-static/
+test-results/
+playwright-report/
+tests/visual/results/
+tests/e2e/results/
+.superpowers/
+*.tgz
+.env*
+!.env*.example
+*.log
