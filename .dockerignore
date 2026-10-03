@@ -1,0 +1,12 @@
+.git
+**/node_modules
+**/dist
+**/dist-incompatible
+**/storybook-static
+tests/visual/__screenshots__
+tests/visual/results
+tests/e2e/results
+**/test-results
+**/playwright-report
+.superpowers
+*.tgz

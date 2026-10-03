@@ -1,0 +1,24 @@
+{
+  "name": "design-system",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@9.12.0",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "tokens:build": "pnpm --filter @sathwik/tokens build",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint .",
+    "test": "pnpm -r --filter \"./packages/**\" --filter @ds/shell test && node --test scripts/",
+    "test:contract": "pnpm --filter @ds/contract-tests test",
+    "test:a11y": "pnpm --filter @ds/visual-tests test:a11y",
+    "test:visual": "pnpm --filter @ds/visual-tests test:visual",
+    "test:e2e": "pnpm --filter @ds/e2e-tests test",
+    "storybook": "pnpm --filter @ds/storybook dev",
+    "dev:mf": "pnpm --parallel --filter @ds/shell --filter @ds/remote-billing --filter @ds/remote-catalog dev",
+    "pack:smoke": "node scripts/pack-smoke.mjs",
+    "report": "node scripts/report.mjs"
+  },
+  "devDependencies": { "typescript": "6.0.3", "@types/node": "26.6.4" }
+}
