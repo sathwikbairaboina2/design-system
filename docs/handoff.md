@@ -26,3 +26,17 @@
   remote). One unidentified e2e flake seen once (see ledger Ruling about retries).
 - Verify: run the Gates block in `docs/superpowers/plans/2026-10-04-design-system.md` in order; every command must
   exit 0, then `pnpm report` rewrites `bench/results/latest.json`.
+
+## 2026-10-04 · Claude Opus (lead verifier) · main · verified after crash recovery
+
+- Changed: reviewed the review-fix diff (`c277483..e0fa0c7`): `.js` specifiers, the overlay token, the lint var() fallback
+  scan, friendly fallback copy, the registry contract check, Card/Tabs ref and className, and report freshness. No new
+  bugs found. Reran `pnpm report` (latest.json at `e0fa0c7`). Updated the measured numbers in the README and DEVDOCS,
+  and fixed stale DEVDOCS lines (import specifiers, retries, fallback copy, pack:smoke, report freshness).
+- Gates (all exit 0): install --frozen-lockfile; build; lint; typecheck; test (contract 7, eslint-plugin 16, tokens 20,
+  ui 39, shell 13, node:test 9); test:contract 6; test:a11y 44; test:e2e 10 passed, 4 media skipped; visual.ps1 88
+  passed; pack:smoke ok; report headline unchanged; actionlint 1.7.7 no output. Demo compose stack: 5440, 5441 and 5442
+  manifests and 5444 index.json all 200, ACAO `*`, then brought down.
+- Left (ADR 0010): npm publish and Changesets, api-extractor, size-limit, a hosted demo, more components, SSR. CI has
+  never run on GitHub because there is no remote.
+- Verify: run the Gates block in the plan, then `pnpm report`. Its first line must match README line 1.

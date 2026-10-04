@@ -8,7 +8,7 @@ Measured headline (from `bench/results/latest.json`, written by `pnpm report`):
 
 > 8 components, 100% of 22 stories under visual + a11y regression (88 screenshots, 0 serious/critical axe violations), two independently deployed remotes sharing one React and one design system
 
-Other measured numbers: 20 of 20 contrast checks pass. A dead remote showed its fallback in 322.5 ms. A slow remote with a 1500 ms timeout showed its fallback at 1515.7 ms. `@sathwik/ui` is 2175 bytes of JS and 1236 bytes of CSS, gzipped.
+Other measured numbers: 20 of 20 contrast checks pass. A dead remote showed its fallback in 313.7 ms. A slow remote with a 1500 ms timeout showed its fallback at 1524 ms. `@sathwik/ui` is 2202 bytes of JS and 1237 bytes of CSS, gzipped. These come from the run at commit `e0fa0c7`.
 
 ## 2. Five-minute quickstart
 
@@ -44,7 +44,7 @@ flowchart TB
   UI -.->|"singleton"| R2
 ```
 
-How a remote loads: the shell reads `public/remotes.json`, registers the remotes with the Module Federation runtime, and `RemoteRoute` calls `loadRemoteSafely`. That function loads `<remote>/contract` first and refuses the remote if its `CONTRACT_VERSION` differs from the host's. Then it loads the module. The whole sequence races a timer. Any failure becomes a typed error, and the shell shows an `EmptyState` with a Retry button.
+How a remote loads: the shell reads `public/remotes.json`, registers the remotes with the Module Federation runtime, and `RemoteRoute` calls `loadRemoteSafely`. That function loads `<remote>/contract` first and refuses the remote if its `CONTRACT_VERSION` differs from the host's. Then it loads the module. The whole sequence races a timer. Any failure becomes a typed error. The shell shows an `EmptyState` with short copy and a Retry button. The raw reason goes to `console.error` and the `data-reason` attribute. The registry also rejects a `remotes.json` entry whose `contract` differs from the host.
 
 ## 4. Project layout
 
@@ -77,10 +77,10 @@ How a remote loads: the shell reads `public/remotes.json`, registers the remotes
 | `pnpm test:e2e` | Starts previews on 5440-5443 and drives the composed app |
 | `powershell -NoProfile -File scripts/visual.ps1` | Compares screenshots in the pinned Playwright image |
 | `powershell -NoProfile -File scripts/visual.ps1 -Update` | Rewrites the baselines (review the diff) |
-| `pnpm pack:smoke` | Packs `@sathwik/tokens` and `@sathwik/ui`, inspects and imports them |
-| `pnpm report` | Writes `bench/results/latest.json`; throws if any input file is missing |
+| `pnpm pack:smoke` | Packs `@sathwik/tokens` and `@sathwik/ui`, imports tokens and type-checks ui as a strict `nodenext` consumer |
+| `pnpm report` | Writes `bench/results/latest.json`; throws if an input is missing, from another commit, or has flaky tests |
 
-Run `pnpm report` last. It reads the output of the a11y, e2e and visual runs, so it needs all three. A visual run that was skipped counts as 0%, never 100%.
+Run `pnpm report` last, on the same commit as the a11y, e2e and visual runs. It reads all three and refuses stale or flaky results. A visual run that was skipped counts as 0%, never 100%.
 
 README screenshots: `$env:DS_MEDIA='1'; pnpm --filter @ds/e2e-tests exec playwright test media.spec.ts`.
 
@@ -99,7 +99,7 @@ README screenshots: `$env:DS_MEDIA='1'; pnpm --filter @ds/e2e-tests exec playwri
 
 Build notes worth knowing:
 
-- `packages/ui` and `packages/federation-contract` use extensionless relative imports. TypeScript does not rewrite `.ts` specifiers in declaration files, so `.ts` imports would break the published types.
+- `packages/ui` and `packages/federation-contract` use `.js` relative imports. That makes the published `.d.ts` files resolve under `nodenext`. `pnpm pack:smoke` checks it.
 - A failed remote must not leak into another. The error boundary in `RemoteRoute` is keyed by `remote/module/attempt`; before that, a failed catalog fallback showed up on the billing page.
 - The visual Playwright config picks its result file from the CLI arguments only. Its own path contains "visual", which once made the a11y run overwrite the visual results.
 
@@ -108,7 +108,7 @@ Build notes worth knowing:
 - Not published to npm; no Changesets. Install from `pnpm pack` tarballs.
 - No api-extractor report and no `size-limit` budget. Gzip sizes are recorded only.
 - CI (`.github/workflows/ci.yml`) and the Storybook Pages workflow have not run on GitHub because the repo has no remote. They pass `actionlint`.
-- One e2e run failed once with an unidentified test and did not reproduce in eight reruns. E2E retries are set to 1, so a flake shows as "flaky".
+- One e2e run failed once during the build with an unidentified test and did not reproduce. Retries are now 0 locally and 1 in CI, and `pnpm report` fails on any flaky test.
 - Eight components. Select, Checkbox, Switch, Toast, Table, a token gallery, Figma sync and SSR are not built.
-- The remote fallback shows the raw Module Federation error text.
+- Visual baselines only run in Docker. On the host, `pnpm test:visual` skips.
 - Sirv serves Storybook for the a11y and visual runs; there is no hosted demo.

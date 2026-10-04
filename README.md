@@ -86,7 +86,7 @@ flowchart TB
 | 8 | A dead or slow remote never breaks the shell or the other remote | `tests/e2e/remote-failure.spec.ts` |
 | 9 | Dialog traps and restores focus, Tabs follow the arrow-key pattern | `packages/ui/src/Dialog/Dialog.test.tsx`, `packages/ui/src/Tabs/Tabs.test.tsx` |
 
-Measured in this repo (from `bench/results/latest.json`): a dead remote showed its fallback after 322.5 ms; a slow remote with `timeoutMs` 1500 showed it after 1515.7 ms. `@sathwik/ui` gzips to 2175 bytes of JS and 1236 bytes of CSS; tokens CSS to 764 bytes.
+Measured in this repo (from `bench/results/latest.json`): a dead remote showed its fallback after 313.7 ms; a slow remote with `timeoutMs` 1500 showed it after 1524 ms. `@sathwik/ui` gzips to 2202 bytes of JS and 1237 bytes of CSS; tokens CSS to 772 bytes.
 
 ## Commands
 

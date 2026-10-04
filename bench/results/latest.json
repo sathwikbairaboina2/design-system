@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-03T23:40:49.788Z",
-  "commit": "964728a",
+  "generatedAt": "2026-10-04T01:03:42.690Z",
+  "commit": "e0fa0c7",
   "node": "v24.18.0",
   "components": 8,
   "stories": 22,
@@ -23,6 +23,7 @@
     "passed": 20
   },
   "singletons": {
+    "commit": "e0fa0c7",
     "uiInstanceIds": 1,
     "owners": [
       "billing",
@@ -34,13 +35,13 @@
   },
   "remoteFailure": {
     "timeoutMs": 1500,
-    "deadFallbackMs": 322.5,
-    "slowFallbackMs": 1515.7
+    "deadFallbackMs": 313.7,
+    "slowFallbackMs": 1524
   },
   "sizes": {
-    "uiJsGzipBytes": 2175,
-    "uiCssGzipBytes": 1236,
-    "tokensCssGzipBytes": 764
+    "uiJsGzipBytes": 2202,
+    "uiCssGzipBytes": 1237,
+    "tokensCssGzipBytes": 772
   },
   "headline": "8 components, 100% of 22 stories under visual + a11y regression (88 screenshots, 0 serious/critical axe violations), two independently deployed remotes sharing one React and one design system"
 }
