@@ -1,4 +1,5 @@
 import { writeFileSync } from 'node:fs';
+import { commit } from './commit';
 import { expect, test, type Page } from '@playwright/test';
 
 const round1 = (n: number) => Math.round(n * 10) / 10;
@@ -29,7 +30,7 @@ test('a dead remote shows a fallback quickly, the other remote keeps working, Re
   await page.getByRole('button', { name: 'Retry' }).click();
   await expect(page.getByTestId('catalog-page')).toBeVisible();
 
-  writeFileSync('results/remote-dead.json', `${JSON.stringify({ deadFallbackMs }, null, 2)}\n`);
+  writeFileSync('results/remote-dead.json', `${JSON.stringify({ commit, deadFallbackMs }, null, 2)}\n`);
 });
 
 test('a slow remote is cut off at timeoutMs and billing still renders', async ({ page }) => {
@@ -47,7 +48,7 @@ test('a slow remote is cut off at timeoutMs and billing still renders', async ({
   await page.goto('/catalog');
   const fallback = page.getByTestId('catalog-fallback');
   await expect(fallback).toBeVisible({ timeout: 6000 });
-  await expect(fallback).toContainText('did not load within 1500 ms');
+  await expect(fallback).toContainText('longer than 1.5 s');
   const slowFallbackMs = round1(await fallbackMs(page, 'catalog'));
   expect(slowFallbackMs).toBeGreaterThanOrEqual(timeoutMs - 50);
   expect(slowFallbackMs).toBeLessThanOrEqual(timeoutMs + 500);
@@ -55,5 +56,5 @@ test('a slow remote is cut off at timeoutMs and billing still renders', async ({
   await page.getByRole('link', { name: 'Dashboard' }).click();
   await expect(page.getByTestId('invoice-widget')).toBeVisible();
 
-  writeFileSync('results/remote-slow.json', `${JSON.stringify({ timeoutMs, slowFallbackMs }, null, 2)}\n`);
+  writeFileSync('results/remote-slow.json', `${JSON.stringify({ commit, timeoutMs, slowFallbackMs }, null, 2)}\n`);
 });

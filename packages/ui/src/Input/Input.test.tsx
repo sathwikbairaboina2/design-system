@@ -14,6 +14,16 @@ describe('Input', () => {
     expect(screen.getByLabelText('Email')).toHaveAccessibleDescription('We never share it');
   });
 
+  it('merges a caller aria-describedby with the hint and error ids', () => {
+    render(
+      <>
+        <p id="extra">Extra help</p>
+        <Input label="Email" hint="hint" aria-describedby="extra" />
+      </>,
+    );
+    expect(screen.getByLabelText('Email')).toHaveAccessibleDescription('hint Extra help');
+  });
+
   it('wires the error message and aria-invalid', () => {
     render(<Input label="Email" hint="hint" error="Enter a valid email" />);
     const input = screen.getByLabelText('Email');

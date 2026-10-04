@@ -3,7 +3,7 @@ import { mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
-import { collect, summarize } from './report.mjs';
+import { assertFresh, collect, summarize } from './report.mjs';
 
 const stories = [
   { type: 'story', title: 'Components/Button' },
@@ -70,4 +70,26 @@ test('refuses to claim a shared singleton when the proof says otherwise', () => 
 test('collect throws on a missing input instead of defaulting a number', () => {
   const empty = mkdtempSync(join(tmpdir(), 'ds-report-'));
   assert.throws(() => collect(empty), /missing input: apps\/storybook\/storybook-static\/index\.json \(run pnpm build\)/);
+});
+
+test('assertFresh accepts inputs from HEAD with no flaky tests', () => {
+  assertFresh('abc1234', [
+    { name: 'a11y.json', commit: 'abc1234', flaky: 0 },
+    { name: 'singletons.json', commit: 'abc1234' },
+  ]);
+});
+
+test('assertFresh throws when an input came from another commit', () => {
+  assert.throws(
+    () => assertFresh('abc1234', [{ name: 'visual.json', commit: 'old0000' }]),
+    /visual\.json is from commit old0000, HEAD is abc1234/,
+  );
+});
+
+test('assertFresh throws when an input carries no commit', () => {
+  assert.throws(() => assertFresh('abc1234', [{ name: 'e2e.json', commit: undefined }]), /e2e\.json has no commit/);
+});
+
+test('assertFresh throws on flaky tests', () => {
+  assert.throws(() => assertFresh('abc1234', [{ name: 'e2e.json', commit: 'abc1234', flaky: 2 }]), /e2e\.json has 2 flaky test/);
 });

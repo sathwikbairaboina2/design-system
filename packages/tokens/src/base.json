@@ -37,6 +37,7 @@
       "subtle": { "$value": "{color.neutral.50}" },
       "accent": { "$value": "{color.blue.600}" },
       "accentHover": { "$value": "{color.blue.700}" },
+      "overlay": { "$value": "{color.neutral.950}" },
       "danger": { "$value": "{color.red.700}" }
     },
     "text": {

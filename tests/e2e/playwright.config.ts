@@ -1,5 +1,6 @@
 import { mkdirSync } from 'node:fs';
 import { defineConfig, devices } from '@playwright/test';
+import { commit } from './commit';
 
 mkdirSync('results', { recursive: true });
 
@@ -15,8 +16,10 @@ export default defineConfig({
   testMatch: /\.spec\.ts$/,
   fullyParallel: false,
   workers: 1,
-  retries: 1,
-  reporter: [['list']],
+  // Locally a flake must show up as a failure; CI gets one retry and report.mjs fails on any flaky test.
+  retries: process.env.CI ? 1 : 0,
+  metadata: { commit },
+  reporter: [['list'], ['json', { outputFile: 'results/e2e.json' }]],
   use: { baseURL: 'http://localhost:5440' },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: [

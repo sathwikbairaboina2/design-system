@@ -1,8 +1,8 @@
-import { createElement, useId, type ComponentPropsWithoutRef, type ElementType, type ReactNode } from 'react';
+import { createElement, useId, type ComponentPropsWithRef, type ElementType, type ReactNode } from 'react';
 import { cx } from '../cx.js';
 import s from './Card.module.css';
 
-export interface CardProps extends Omit<ComponentPropsWithoutRef<'section'>, 'title'> {
+export interface CardProps extends Omit<ComponentPropsWithRef<'section'>, 'title'> {
   as?: ElementType;
   title?: ReactNode;
   headingLevel?: 2 | 3 | 4;

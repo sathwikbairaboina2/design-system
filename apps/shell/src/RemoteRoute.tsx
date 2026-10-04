@@ -1,4 +1,4 @@
-import { CONTRACT_VERSION, loadRemoteSafely } from '@ds/federation-contract';
+import { ContractMismatchError, loadRemoteSafely, RemoteTimeoutError } from '@ds/federation-contract';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 import { Button, EmptyState } from '@sathwik/ui';
 import { Component, lazy, Suspense, useEffect, useMemo, useState, type ComponentType, type ReactNode } from 'react';
@@ -25,6 +25,13 @@ interface FallbackProps {
   retry: () => void;
 }
 
+/** Short, user-facing copy. The raw reason stays in the console and in `data-reason`. */
+function friendlyMessage(error: unknown): string {
+  if (error instanceof RemoteTimeoutError) return `It took longer than ${+(error.timeoutMs / 1000).toFixed(2)} s to load.`;
+  if (error instanceof ContractMismatchError) return 'This version is not compatible with the shell.';
+  return 'It could not be reached.';
+}
+
 function Fallback({ remote, entry, title, error, retry }: FallbackProps) {
   const reason = error instanceof Error ? error.message : String(error);
   useEffect(() => {
@@ -33,8 +40,8 @@ function Fallback({ remote, entry, title, error, retry }: FallbackProps) {
     console.error(`[mf] remote=${remote} entry=${entry.entry} reason=${reason}`);
   }, [remote, entry.entry, reason]);
   return (
-    <div data-testid={`${remote}-fallback`}>
-      <EmptyState title={title} description={reason} action={<Button onClick={retry}>Retry</Button>} />
+    <div data-testid={`${remote}-fallback`} data-reason={reason}>
+      <EmptyState title={title} description={friendlyMessage(error)} action={<Button onClick={retry}>Retry</Button>} />
     </div>
   );
 }
@@ -60,7 +67,7 @@ export function RemoteRoute({ remote, module, entry, props, fallbackTitle, load 
           remote,
           module,
           timeoutMs: entry.timeoutMs,
-          expectedContract: CONTRACT_VERSION,
+          expectedContract: entry.contract,
           load,
         });
         setRemoteStatus(remote, 'loaded');

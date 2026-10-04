@@ -111,5 +111,4 @@ Build notes worth knowing:
 - One e2e run failed once with an unidentified test and did not reproduce in eight reruns. E2E retries are set to 1, so a flake shows as "flaky".
 - Eight components. Select, Checkbox, Switch, Toast, Table, a token gallery, Figma sync and SSR are not built.
 - The remote fallback shows the raw Module Federation error text.
-- The Dialog overlay in dark mode is a light grey wash (it reuses the text colour at 50% opacity).
 - Sirv serves Storybook for the a11y and visual runs; there is no hosted demo.

@@ -1,4 +1,5 @@
 import { writeFileSync } from 'node:fs';
+import { commit } from './commit';
 import { expect, test } from '@playwright/test';
 
 test('one React and one @sathwik/ui across shell and both remotes, and remote hooks work', async ({ page }) => {
@@ -38,5 +39,5 @@ test('one React and one @sathwik/ui across shell and both remotes, and remote ho
 
   expect(problems.filter((p) => /Invalid hook call|more than one copy of React/i.test(p))).toEqual([]);
 
-  writeFileSync('results/singletons.json', `${JSON.stringify({ uiInstanceIds: ids.size, owners, reactLoadedVersions, uiLoadedVersions }, null, 2)}\n`);
+  writeFileSync('results/singletons.json', `${JSON.stringify({ commit, uiInstanceIds: ids.size, owners, reactLoadedVersions, uiLoadedVersions }, null, 2)}\n`);
 });

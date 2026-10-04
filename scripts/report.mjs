@@ -66,21 +66,44 @@ function gzipSize(root, rel, hint) {
   return gzipSync(readFileSync(path)).length;
 }
 
+/**
+ * Pure: every input must come from the current commit and no suite may have flaky tests,
+ * so a stale or retried run cannot feed the headline.
+ */
+export function assertFresh(head, inputs) {
+  for (const { name, commit, flaky } of inputs) {
+    if (!commit) throw new Error(`${name} has no commit; rerun its suite`);
+    if (commit !== head) throw new Error(`${name} is from commit ${commit}, HEAD is ${head}; rerun its suite`);
+    if (flaky) throw new Error(`${name} has ${flaky} flaky test(s); fix them before reporting`);
+  }
+}
+
 export function collect(root) {
   const index = readJson(root, 'apps/storybook/storybook-static/index.json', 'pnpm build');
   const a11y = readJson(root, 'tests/visual/results/a11y.json', 'pnpm test:a11y');
   const visual = readJson(root, 'tests/visual/results/visual.json', 'scripts/visual.ps1');
   const dead = readJson(root, 'tests/e2e/results/remote-dead.json', 'pnpm test:e2e');
   const slow = readJson(root, 'tests/e2e/results/remote-slow.json', 'pnpm test:e2e');
+  const e2e = readJson(root, 'tests/e2e/results/e2e.json', 'pnpm test:e2e');
+  const singletons = readJson(root, 'tests/e2e/results/singletons.json', 'pnpm test:e2e');
+  const commit = execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
+  assertFresh(commit, [
+    { name: 'a11y.json', commit: a11y.config?.metadata?.commit, flaky: a11y.stats.flaky },
+    { name: 'visual.json', commit: visual.config?.metadata?.commit, flaky: visual.stats.flaky },
+    { name: 'e2e.json', commit: e2e.config?.metadata?.commit, flaky: e2e.stats.flaky },
+    { name: 'remote-dead.json', commit: dead.commit },
+    { name: 'remote-slow.json', commit: slow.commit },
+    { name: 'singletons.json', commit: singletons.commit },
+  ]);
   return {
     generatedAt: new Date().toISOString(),
-    commit: execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(),
+    commit,
     node: process.version,
     stories: Object.values(index.entries),
     a11yStats: a11y.stats,
     visualStats: visual.stats,
     contrast: readJson(root, 'packages/tokens/dist/contrast-report.json', 'pnpm build'),
-    singletons: readJson(root, 'tests/e2e/results/singletons.json', 'pnpm test:e2e'),
+    singletons,
     remoteFailure: { timeoutMs: slow.timeoutMs, deadFallbackMs: dead.deadFallbackMs, slowFallbackMs: slow.slowFallbackMs },
     sizes: {
       uiJsGzipBytes: gzipSize(root, 'packages/ui/dist/index.js', 'pnpm build'),

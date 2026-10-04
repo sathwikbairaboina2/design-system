@@ -1,3 +1,4 @@
+import { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
@@ -54,5 +55,12 @@ describe('Tabs', () => {
   it('honours defaultValue', () => {
     render(<Tabs items={items} defaultValue="two" aria-label="Sections" />);
     expect(screen.getByRole('tab', { name: 'Two' })).toHaveAttribute('aria-selected', 'true');
+  });
+
+  it('passes className and ref to the root', () => {
+    const ref = createRef<HTMLDivElement>();
+    const { container } = render(<Tabs ref={ref} className="custom" items={items} aria-label="Sections" />);
+    expect(container.firstElementChild).toHaveClass('custom');
+    expect(ref.current).toBe(container.firstElementChild);
   });
 });

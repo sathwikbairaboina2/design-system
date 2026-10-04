@@ -16,6 +16,14 @@ beforeEach(() => {
 afterEach(() => vi.restoreAllMocks());
 
 describe('RemoteRoute', () => {
+  it('shows short copy on a timeout and keeps the reason out of the text', async () => {
+    const never = vi.fn(() => new Promise<unknown>(() => {}));
+    render(<RemoteRoute remote="catalog" module="CatalogPage" entry={{ ...entry, timeoutMs: 100 }} fallbackTitle="Catalog is unavailable" load={never} />);
+    const fallback = await screen.findByTestId('catalog-fallback');
+    expect(fallback).toHaveTextContent('It took longer than 0.1 s to load.');
+    expect(fallback).toHaveAttribute('data-reason', expect.stringContaining('did not load within 100 ms'));
+  });
+
   it('renders the remote module on success', async () => {
     render(<RemoteRoute remote="catalog" module="CatalogPage" entry={entry} fallbackTitle="Catalog is unavailable" load={makeLoad(1)} />);
     expect(await screen.findByText('remote page')).toBeInTheDocument();
@@ -26,7 +34,9 @@ describe('RemoteRoute', () => {
     render(<RemoteRoute remote="catalog" module="CatalogPage" entry={entry} fallbackTitle="Catalog is unavailable" load={makeLoad(2)} />);
     const fallback = await screen.findByTestId('catalog-fallback');
     expect(fallback).toHaveTextContent('Catalog is unavailable');
-    expect(fallback).toHaveTextContent('contract 2 is incompatible with host contract 1');
+    expect(fallback).toHaveTextContent('This version is not compatible with the shell.');
+    expect(fallback).not.toHaveTextContent('contract 2');
+    expect(fallback).toHaveAttribute('data-reason', expect.stringContaining('contract 2 is incompatible with host contract 1'));
     expect(screen.queryByText('remote page')).toBeNull();
   });
 
@@ -37,7 +47,10 @@ describe('RemoteRoute', () => {
       .mockRejectedValueOnce(new Error('Failed to get manifest'))
       .mockImplementation(async (id: string) => (id.endsWith('/contract') ? { CONTRACT_VERSION: 1 } : { default: Page }));
     render(<RemoteRoute remote="catalog" module="CatalogPage" entry={entry} fallbackTitle="Catalog is unavailable" load={load} />);
-    expect(await screen.findByTestId('catalog-fallback')).toHaveTextContent('Failed to get manifest');
+    const first = await screen.findByTestId('catalog-fallback');
+    expect(first).toHaveTextContent('It could not be reached.');
+    expect(first).not.toHaveTextContent('Failed to get manifest');
+    expect(first).toHaveAttribute('data-reason', expect.stringContaining('Failed to get manifest'));
     await user.click(screen.getByRole('button', { name: 'Retry' }));
     expect(await screen.findByText('remote page')).toBeInTheDocument();
     expect(load).toHaveBeenCalledTimes(3);

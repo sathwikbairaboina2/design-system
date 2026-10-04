@@ -9,7 +9,8 @@ New-Item -ItemType Directory -Force $shots, $results | Out-Null
 docker build -f (Join-Path $root 'docker/visual.Dockerfile') -t design-system-visual $root
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-$runArgs = @('run', '--rm', '--name', 'design-system-visual', '--ipc=host',
+$commit = (git -C $root rev-parse --short HEAD).Trim()
+$runArgs = @('run', '--rm', '--name', 'design-system-visual', '--ipc=host', '-e', "DS_COMMIT=$commit",
   '-v', "${shots}:/work/tests/visual/__screenshots__",
   '-v', "${results}:/work/tests/visual/results",
   'design-system-visual')

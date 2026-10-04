@@ -14,7 +14,7 @@ test('a remote built with contract 2 is refused and never mounted', async ({ pag
   await page.goto('/catalog');
   const fallback = page.getByTestId('catalog-fallback');
   await expect(fallback).toBeVisible();
-  await expect(fallback).toContainText('incompatible');
+  await expect(fallback).toContainText('not compatible');
   // It must stay unmounted, not flash in after the fallback.
   await page.waitForTimeout(1000);
   await expect(page.getByTestId('catalog-page')).toHaveCount(0);

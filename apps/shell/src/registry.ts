@@ -1,4 +1,4 @@
-import { REMOTES, type RemoteName } from '@ds/federation-contract';
+import { CONTRACT_VERSION, REMOTES, type RemoteName } from '@ds/federation-contract';
 
 export interface RemoteEntry {
   entry: string;
@@ -20,6 +20,9 @@ export function parseRegistry(json: unknown): Registry {
     }
     if (typeof contract !== 'number' || !Number.isInteger(contract)) {
       throw new Error(`remotes.json: ${name}.contract must be an integer`);
+    }
+    if (contract !== CONTRACT_VERSION) {
+      throw new Error(`remotes.json: ${name}.contract ${contract} does not match the host contract ${CONTRACT_VERSION}`);
     }
     if (typeof timeoutMs !== 'number' || !(timeoutMs > 0)) {
       throw new Error(`remotes.json: ${name}.timeoutMs must be a positive number`);

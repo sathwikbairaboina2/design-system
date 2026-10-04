@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { CONTRACT_VERSION } from '@ds/federation-contract';
 import { parseRegistry } from './registry';
 
 const good = {
@@ -21,6 +22,10 @@ describe('parseRegistry', () => {
 
   it('throws on a non-positive timeout', () => {
     expect(() => parseRegistry({ ...good, billing: { ...good.billing, timeoutMs: 0 } })).toThrow(/billing\.timeoutMs/);
+  });
+
+  it('throws when the registry contract differs from the host contract', () => {
+    expect(() => parseRegistry({ ...good, catalog: { ...good.catalog, contract: CONTRACT_VERSION + 1 } })).toThrow(/catalog\.contract/);
   });
 
   it('throws on a non-integer contract', () => {
