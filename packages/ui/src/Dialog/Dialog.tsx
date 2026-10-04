@@ -1,7 +1,7 @@
 import * as RadixDialog from '@radix-ui/react-dialog';
 import type { ReactElement, ReactNode } from 'react';
-import { Button } from '../Button/Button';
-import { useTheme } from '../ThemeProvider/ThemeProvider';
+import { Button } from '../Button/Button.js';
+import { useTheme } from '../ThemeProvider/ThemeProvider.js';
 import s from './Dialog.module.css';
 
 export interface DialogProps {

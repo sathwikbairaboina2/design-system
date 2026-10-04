@@ -1,8 +1,10 @@
-// Packs the two publishable packages, checks tarball contents and imports the tokens package from the tarball.
+// Packs the two publishable packages, checks tarball contents, imports the tokens package from the tarball
+// and type-checks the ui tarball as a strict nodenext consumer (skipLibCheck off) so d.ts regressions fail.
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs';
+import { cpSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
+import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 
 const root = resolve(import.meta.dirname, '..');
@@ -32,9 +34,61 @@ function fail(message) {
   process.exitCode = 1;
 }
 
+// Extracts the ui tarball into a scratch consumer (module/moduleResolution nodenext, skipLibCheck false)
+// and type-checks a file that must reject an invalid Button variant.
+function typecheckConsumer(uiDir, tokensDir) {
+  const uiRoot = join(root, 'packages/ui');
+  const consumer = join(tmp, 'consumer');
+  const modules = join(consumer, 'node_modules');
+  mkdirSync(join(modules, '@sathwik'), { recursive: true });
+  mkdirSync(join(modules, '@types'), { recursive: true });
+  mkdirSync(join(modules, '@radix-ui'), { recursive: true });
+  cpSync(join(uiDir, 'package'), join(modules, '@sathwik/ui'), { recursive: true });
+  cpSync(join(tokensDir, 'package'), join(modules, '@sathwik/tokens'), { recursive: true });
+  const link = (rel) => symlinkSync(join(uiRoot, 'node_modules', rel), join(modules, rel), 'junction');
+  for (const rel of ['react', '@types/react', '@radix-ui/react-dialog', '@radix-ui/react-tabs']) link(rel);
+
+  writeFileSync(join(consumer, 'package.json'), JSON.stringify({ name: 'consumer', private: true, type: 'module' }));
+  writeFileSync(
+    join(consumer, 'tsconfig.json'),
+    JSON.stringify({
+      compilerOptions: {
+        module: 'nodenext',
+        moduleResolution: 'nodenext',
+        target: 'ES2022',
+        jsx: 'react-jsx',
+        strict: true,
+        skipLibCheck: false,
+        noEmit: true,
+        types: [],
+      },
+      include: ['index.tsx'],
+    }),
+  );
+  writeFileSync(
+    join(consumer, 'index.tsx'),
+    [
+      "import { Button, ThemeProvider, type ButtonProps } from '@sathwik/ui';",
+      "export const ok: ButtonProps = { variant: 'primary', children: 'x' };",
+      "// @ts-expect-error an invalid variant must be a type error, not any",
+      "export const bad: ButtonProps = { variant: 'nope' };",
+      "export const el = <ThemeProvider theme=\"light\"><Button variant=\"primary\">Go</Button></ThemeProvider>;",
+      '',
+    ].join('\n'),
+  );
+  const tsc = join(dirname(createRequire(join(uiRoot, 'package.json')).resolve('typescript/package.json')), 'bin/tsc');
+  try {
+    run(process.execPath, [tsc, '-p', 'tsconfig.json'], consumer);
+  } catch (e) {
+    throw new Error(`nodenext consumer type-check failed:
+${String(e.stdout ?? '')}${String(e.stderr ?? '')}`.slice(0, 2000));
+  }
+}
+
 try {
   const summary = [];
   let tokensDir;
+  let uiDir;
   for (const [name, { dir: pkgDir, files }] of Object.entries(REQUIRED)) {
     const before = new Set(readdirSync(tmp));
     pnpm(['pack', '--pack-destination', tmp], join(root, pkgDir));
@@ -54,6 +108,7 @@ try {
     const bad = JSON.stringify(pkg, null, 1).split('\n').filter((l) => l.includes('workspace:'));
     if (bad.length > 0) throw new Error(`${name}: packed package.json still has workspace: ranges: ${bad.join(' ')}`);
     if (name === '@sathwik/tokens') tokensDir = dir;
+    if (name === '@sathwik/ui') uiDir = dir;
     summary.push(`${tgz} ${statSync(join(tmp, tgz)).size} bytes`);
   }
 
@@ -61,6 +116,7 @@ try {
   if (!/^#[0-9a-f]{6}$/i.test(String(tokens.ColorBgSurface))) {
     throw new Error(`tokens.ColorBgSurface is ${JSON.stringify(tokens.ColorBgSurface)}, expected a #rrggbb colour`);
   }
+  typecheckConsumer(uiDir, tokensDir);
   console.log(`pack:smoke ok (${summary.join(', ')})`);
 } catch (e) {
   fail(e instanceof Error ? e.message : String(e));

@@ -1,5 +1,5 @@
 import { forwardRef, useId, type InputHTMLAttributes } from 'react';
-import { cx } from '../cx';
+import { cx } from '../cx.js';
 import s from './Input.module.css';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {

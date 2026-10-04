@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, useState, type HTMLAttributes, type ReactNode } from 'react';
-import { cx } from '../cx';
+import { cx } from '../cx.js';
 import s from './ThemeProvider.module.css';
 
 export type Theme = 'light' | 'dark';

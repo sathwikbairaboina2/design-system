@@ -1,5 +1,5 @@
 import { createElement, useId, type ComponentPropsWithoutRef, type ElementType, type ReactNode } from 'react';
-import { cx } from '../cx';
+import { cx } from '../cx.js';
 import s from './Card.module.css';
 
 export interface CardProps extends Omit<ComponentPropsWithoutRef<'section'>, 'title'> {

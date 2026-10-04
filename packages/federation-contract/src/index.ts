@@ -24,4 +24,4 @@ export interface CatalogRemote {
   ProductPicker: ComponentType<{ onSelect(id: string): void }>;
 }
 
-export * from './load';
+export * from './load.js';

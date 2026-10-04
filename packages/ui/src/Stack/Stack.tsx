@@ -1,5 +1,5 @@
 import { createElement, type ComponentPropsWithoutRef, type ElementType } from 'react';
-import { cx } from '../cx';
+import { cx } from '../cx.js';
 import s from './Stack.module.css';
 
 export type Gap = 0 | 1 | 2 | 3 | 4 | 6 | 8;
