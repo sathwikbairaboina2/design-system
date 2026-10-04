@@ -43,6 +43,8 @@ jobs:
       DS_VISUAL: '1'
     steps:
       - uses: actions/checkout@v7
+      # the container runs as root over a runner-owned checkout; git refuses it without this
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - run: corepack enable && corepack prepare pnpm@9.12.0 --activate
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @sathwik/tokens build
