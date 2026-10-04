@@ -1,4 +1,16 @@
+# 🎨 design-system
+
+> Design system and micro-frontends. Tokens to React to Storybook, with screenshot and axe tests on every story.
+
 8 components, 100% of 22 stories under visual + a11y regression (88 screenshots, 0 serious/critical axe violations), two independently deployed remotes sharing one React and one design system
+
+<!-- readme-header -->
+[![CI](https://github.com/sathwikbairaboina2/design-system/actions/workflows/ci.yml/badge.svg)](https://github.com/sathwikbairaboina2/design-system/actions/workflows/ci.yml) ![React](https://img.shields.io/badge/-React-555) ![Module Federation](https://img.shields.io/badge/-Module%20Federation-555) ![Storybook](https://img.shields.io/badge/-Storybook-555)
+
+| Measured | Source |
+|---|---|
+| **88 screenshots** | `bench/results/latest.json` |
+| **0 serious a11y** | `bench/results/latest.json` |
 
 Source of every number below: [`bench/results/latest.json`](bench/results/latest.json), written by `pnpm report` from real test output.
 
