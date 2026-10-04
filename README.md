@@ -131,6 +131,6 @@ Measured in this repo (from `bench/results/latest.json`): a dead remote showed i
 
 - Not published to npm yet; install from packed tarballs.
 - Visual baselines are valid only in the pinned Docker image. Running them on the host is skipped on purpose.
-- The Storybook Pages workflow and the CI workflows have not run on GitHub: the repo has no remote. They pass `actionlint` only.
+- Storybook is published to GitHub Pages at <https://sathwikbairaboina2.github.io/design-system/> on every push to `main`. The numbers above come from local runs, not CI.
 - Eight components. Select, Checkbox, Switch, Toast, Table, a token gallery and Figma sync are not built.
 - The remote fallback shows the Module Federation error text as the reason; it is not yet friendlier.
